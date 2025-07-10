@@ -1,0 +1,23 @@
+# Build results
+bin/
+obj/
+*.exe
+*.dll
+
+# Rider
+.idea/
+*.sln.iml
+
+# User-specific files
+*.user
+*.suo
+
+# Entity Framework
+Migrations/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
