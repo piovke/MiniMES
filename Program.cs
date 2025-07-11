@@ -16,7 +16,7 @@ namespace MiniMesTrainApi
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            string? connString = builder.Configuration.GetConnectionString("MiniProduction");
+            var connString = builder.Configuration.GetConnectionString("MiniProduction");
             if (connString == null)
             {
                 Console.WriteLine("There is no ConnectionString called MiniProduction in appsettings.json");
@@ -24,10 +24,7 @@ namespace MiniMesTrainApi
             else
             {
                 builder.Services.AddDbContext<MiniProductionDbContext>(options =>
-                    options.UseMySql(
-                        builder.Configuration.GetConnectionString("MiniProduction"),
-                        new MySqlServerVersion(new Version(10, 4, 32))
-                    ));
+                    options.UseMySql(connString, ServerVersion.AutoDetect(connString)));
             }
 
             var app = builder.Build();
