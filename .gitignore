@@ -21,3 +21,10 @@ Migrations/
 # OS
 .DS_Store
 Thumbs.db
+# Node modules
+node_modules/
+dist/
+.env
+
+# inne popularne ignorowane pliki
+.vscode/
