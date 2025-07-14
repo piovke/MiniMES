@@ -61,10 +61,13 @@ onMounted(async () => {
       <h1>Lista Maszyn</h1>
       <ul>
         <li v-for="machine in machines" :key="machine.id">
-          {{ machine.name }} - {{ machine.description }}
-          Current orders: {{machine.orderIds.length}}
-          <button>Machine details</button>
+          {{ machine.name }}
+          <router-link :to="`/Machines/Details/${machine.id}`">
+            <button>Machine detalis</button>
+          </router-link>
           <button @click="confirmDelete(machine.id)">Delete</button>
+          <br>
+          Current orders: {{machine.orderIds.length}}
         </li>
       </ul>
     </div>
@@ -83,7 +86,7 @@ onMounted(async () => {
 .container {
   display: grid;
   grid-template-columns: 70% 30%;
-  gap: 16px; /* opcjonalnie, odstęp między kolumnami */
+  gap: 16px; 
   height: 100%;
 }
 
@@ -93,7 +96,7 @@ onMounted(async () => {
 }
 
 .machineAdd {
-  background-color: lightgray; /* tylko żebyś widział obszar */
+  background-color: lightgray; 
   padding: 16px;
 }
 </style>

@@ -21,6 +21,7 @@ namespace MiniMES.Controllers
             public string Name { get; set; } = "";
             public string Description { get; set; } = "";
             public List<int> OrderIds { get; set; } = new();
+            public List<string> Orders { get; set; } = new();
         }
 
         public class CreateMachineDto
@@ -61,11 +62,37 @@ namespace MiniMES.Controllers
                     Id = m.Id,
                     Name = m.Name,
                     Description = m.Description,
-                    OrderIds = m.Orders.Select(o=>o.Id).ToList()
+                    OrderIds = m.Orders.Select(o=>o.Id).ToList(),
                 }).ToList();
             
             return Ok(machines);
         }
+        
+        [HttpGet]
+        [Route("Details/{id}")]
+        public IActionResult Details([FromRoute] int id)
+        {
+            var machine = _context.Machines
+                .Include(m => m.Orders)
+                .FirstOrDefault(m => m.Id == id);
+
+            if (machine == null)
+            {
+                return NotFound();
+            }
+
+            var machineDto = new MachineDto
+            {
+                Id = machine.Id,
+                Name = machine.Name,
+                Description = machine.Description,
+                OrderIds = machine.Orders.Select(o => o.Id).ToList(),
+                Orders = machine.Orders.Select(o=>o.Code).ToList()
+            };
+
+            return Ok(machineDto);
+        }
+
 
         [HttpDelete]
         [Route("DeleteMachine")]

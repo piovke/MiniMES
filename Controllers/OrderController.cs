@@ -44,6 +44,7 @@ namespace MiniMES.Controllers
                 .Include(o => o.Product)
                 .Select(o=>new OrderDto
                 {
+                    OrderId = o.Id,
                     Code = o.Code,
                     // MachineId = o.MachineId,
                     MachineName = o.Machine.Name,

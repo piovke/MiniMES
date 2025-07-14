@@ -58,6 +58,7 @@ namespace MiniMES.Controllers
                 .Include(p=>p.Orders)
                 .Select(p => new ProductDto
                 {
+                    Id = p.Id,
                     Name = p.Name,
                     Description = p.Description,
                     OrderIds = p.Orders.Select(o=>o.Id).ToList()

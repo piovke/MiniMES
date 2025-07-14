@@ -1,10 +1,36 @@
-<script setup lang="ts">
+<script setup>
+import {ref, onMounted} from 'vue'
+import { useRoute } from 'vue-router'
 
+const route = useRoute()
+const machine = ref(null)
+
+async function fetchMachine() {
+  const id = route.params.Id
+  const response = await fetch('http://localhost:5001/Machines/Details/' + id)
+  if (response.ok) {
+    machine.value = await response.json()
+  } else {
+    console.error('Błąd podczas pobierania maszyny')
+  }
+}
+
+onMounted(() => {
+  fetchMachine()
+})
 </script>
 
 <template>
-
-</template>
+  <h1>{{machine?.name}}</h1>
+  <p>{{machine?.description}}</p>
+  
+  <h3>Active orders:</h3>
+  <ul>
+    <li v-for="order in machine?.orders">
+    {{order}}
+    </li>
+  </ul>
+  </template>
 
 <style scoped>
 
