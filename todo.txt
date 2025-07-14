@@ -9,3 +9,5 @@ do order dodac liste procesow
 i do procesów są dopięte parametry
 
 to przy wyświetlaniu order - przejście na procesy i tam wszystkie procesy dotyczące orderu i ich parametry
+
+datetime w process powinien byc automatycznie
