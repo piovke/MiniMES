@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MiniMES.Models;
-
 
 namespace MiniMES.Controllers
 
 {
-    [Route("MiniMES")]
+    [Route("Machines")]
     [ApiController]
     public class MachineController : ControllerBase
     {
@@ -14,15 +14,30 @@ namespace MiniMES.Controllers
         {
             _context = context;
         }
+        
+        public class MachineDto
+        {
+            public int Id { get; set; }
+            public string Name { get; set; } = "";
+            public string Description { get; set; } = "";
+            public List<int> OrderIds { get; set; } = new();
+        }
 
+        public class CreateMachineDto
+        {
+            public string Name { get; set; } = "";
+            public string Description { get; set; } = "";
+        }
+        
         [HttpPost]
         [Route("AddMachine")]
-        public IActionResult AddMachine([FromBody] Machine machine)
+        public IActionResult AddMachine([FromBody] CreateMachineDto input)
         {
-            if (machine == null)
+            Machine machine = new Machine
             {
-                return BadRequest();
-            }
+                Name = input.Name,
+                Description = input.Description
+            };
             
             _context.Machines.Add(machine);
             _context.SaveChanges();
@@ -33,22 +48,56 @@ namespace MiniMES.Controllers
         [Route("ShowMachines")]
         public IActionResult ShowMachines()
         {
-            try
+            if (!_context.Machines.Any())
             {
-                if (!_context.Machines.Any())
-                {
-                    return NoContent();
-                }
-
-                var machines = _context.Machines.ToList();
-                return Ok(machines);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
+                Console.WriteLine("No machines to show");
+                return NoContent();
             }
             
+            var machines = _context.Machines
+                .Include(m=>m.Orders)
+                .Select(m => new MachineDto
+                {
+                    Id = m.Id,
+                    Name = m.Name,
+                    Description = m.Description,
+                    OrderIds = m.Orders.Select(o=>o.Id).ToList()
+                }).ToList();
+            
+            return Ok(machines);
+        }
+
+        [HttpDelete]
+        [Route("DeleteMachine")]
+        public IActionResult DeleteMachine([FromQuery] int id)
+        {
+            var machine = _context.Machines.Find(id);
+            if (machine == null)
+            {
+                Console.WriteLine($"Machnie with id {id} not found");
+                return NotFound();
+            }
+            _context.Machines.Remove(machine);
+            _context.SaveChanges();
+            return Ok("deleted");
+        }
+
+        [HttpPut]
+        [Route("UpdateMachine")]
+        public IActionResult UpdateMachine([FromBody] CreateMachineDto input, [FromQuery] int id)
+        {
+            Machine? machineToUpdate = _context.Machines.Find(id);
+            if(machineToUpdate==null)
+            {
+                Console.WriteLine("Machine with this id does not exist");
+                return NotFound();
+            }
+            
+            machineToUpdate.Name = input.Name;
+            machineToUpdate.Description = input.Description;
+            _context.Machines.Update(machineToUpdate);
+            _context.SaveChanges();
+            return Ok(machineToUpdate);
         }
     }
 }

@@ -13,5 +13,5 @@ public class Order
     public Machine Machine { get; set; } = null!;
     public Product Product { get; set; } = null!;
     
-    public ICollection<Process> Processes { get; set; } = null!;
+    public ICollection<Process> Processes { get; set; } = new List<Process>();
 }

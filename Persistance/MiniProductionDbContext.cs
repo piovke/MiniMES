@@ -32,6 +32,7 @@ public class MiniProductionDbContext : DbContext
             entity.ToTable("Orders");
 
             entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e=>e.Code).HasMaxLength(50);
 
             entity.HasOne(d => d.Machine)
                 .WithMany(p => p.Orders)

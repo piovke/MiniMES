@@ -6,5 +6,5 @@ public class Parameter
     public string Name;
     public string Unit;
     
-    public ICollection<ProcessParameters> ProcessParameters { get; set; } = null!;
+    public ICollection<ProcessParameters> ProcessParameters { get; set; } = new List<ProcessParameters>();
 }
