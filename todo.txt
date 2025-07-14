@@ -1,0 +1,11 @@
+backend dla process, processparameters, parameters
+dodawanie,edycja,usuwanie,
+
+do order dodac liste procesow
+
+
+żeby dodac order musi być machine i product.ok
+żeby dodac proces musi być order...
+i do procesów są dopięte parametry
+
+to przy wyświetlaniu order - przejście na procesy i tam wszystkie procesy dotyczące orderu i ich parametry
