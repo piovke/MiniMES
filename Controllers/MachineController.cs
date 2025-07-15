@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MiniMES.Models;
+using MiniMES.DTOs;
 
 namespace MiniMES.Controllers
 
@@ -13,21 +14,6 @@ namespace MiniMES.Controllers
         public MachineController(MiniProductionDbContext context)
         {
             _context = context;
-        }
-        
-        public class MachineDto
-        {
-            public int Id { get; set; }
-            public string Name { get; set; } = "";
-            public string Description { get; set; } = "";
-            public List<int> OrderIds { get; set; } = new();
-            public List<string> Orders { get; set; } = new();
-        }
-
-        public class CreateMachineDto
-        {
-            public string Name { get; set; } = "";
-            public string Description { get; set; } = "";
         }
         
         [HttpPost]

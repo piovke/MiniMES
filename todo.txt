@@ -11,3 +11,8 @@ i do procesów są dopięte parametry
 to przy wyświetlaniu order - przejście na procesy i tam wszystkie procesy dotyczące orderu i ich parametry
 
 datetime w process powinien byc automatycznie
+
+jak nie ma maszyn to zeby bylo to na stronie pokazane
+jak sie ne udalo polaczyc z baza to tez pokaz
+
+czy powinno byc móc updatowac czas w procesie?

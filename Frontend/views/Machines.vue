@@ -59,6 +59,7 @@ onMounted(async () => {
   <div class="container">
     <div class="machineList">
       <h1>Lista Maszyn</h1>
+      <h3 v-if="machines.length == 0">no machines</h3>
       <ul>
         <li v-for="machine in machines" :key="machine.id">
           {{ machine.name }}

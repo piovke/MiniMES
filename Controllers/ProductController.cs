@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MiniMES.Models;
-
+using MiniMES.DTOs;
 namespace MiniMES.Controllers
 
 {
@@ -14,20 +14,6 @@ namespace MiniMES.Controllers
         public ProductController(MiniProductionDbContext context)
         {
             _context = context;
-        }
-
-        public class ProductDto
-        {
-            public int Id { get; set; }
-            public string Name { get; set; } = "";
-            public string Description { get; set; } = "";
-            public List<int> OrderIds { get; set; } = new();
-        }
-
-        public class CreateProductDto
-        {
-            public string Name { get; set; } = "";
-            public string Description { get; set; } = "";
         }
         
         [HttpPost]
@@ -81,6 +67,7 @@ namespace MiniMES.Controllers
             productToUpdate.Name = input.Name;
             productToUpdate.Description = input.Description;
             _context.Products.Update(productToUpdate);
+            _context.SaveChanges();
             return Ok(productToUpdate);
         }
 
