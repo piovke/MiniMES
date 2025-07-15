@@ -55,7 +55,7 @@ const confirmDelete = (id) => {
 }
 
 onMounted(async () => {
-  fetchMachines()
+  await   fetchMachines()
 })
 </script>
 
