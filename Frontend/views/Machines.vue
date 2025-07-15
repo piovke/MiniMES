@@ -11,6 +11,10 @@ async function fetchMachines() {
 const name = ref('')
 const description = ref('')
 async function addMachine() {
+  if(name.value === '' ||  description.value === ''){
+    alert("fill the form ")
+    return
+  }
   try {
     const response = await fetch('http://localhost:5001/Machines/AddMachine', {
       method: 'POST',
@@ -34,7 +38,7 @@ async function addMachine() {
   await fetchMachines()
 }
 async function deleteMachine(id) {
-  
+
   const response = await fetch('http://localhost:5001/Machines/DeleteMachine?id=' + id, {
     method: 'DELETE',
   });
@@ -68,16 +72,18 @@ onMounted(async () => {
           </router-link>
           <button @click="confirmDelete(machine.id)">Delete</button>
           <br>
-          Current orders: {{machine.orderIds.length}}
+          Current orders: {{machine.orders.length}}
         </li>
       </ul>
     </div>
     <div class="machineAdd">
       <h2>Dodaj maszynę</h2>
       <form @submit.prevent="addMachine">
-        <input v-model="name" placeholder="Nazwa" />
-        <input v-model="description" placeholder="Opis" />
-        <button type="submit">Dodaj</button>
+        <input v-model="name" placeholder="Name" />
+        <br>
+        <textarea v-model="description" placeholder="Description" />
+        <br>
+        <button type="submit">Add</button>
       </form>
     </div>
   </div>
@@ -99,5 +105,12 @@ onMounted(async () => {
 .machineAdd {
   background-color: lightgray; 
   padding: 16px;
+}
+textarea{
+  width: 90%;
+  height: 100px;
+}
+input[type=text]{
+  width: 90%;
 }
 </style>

@@ -48,7 +48,11 @@ namespace MiniMES.Controllers
                     Id = m.Id,
                     Name = m.Name,
                     Description = m.Description,
-                    OrderIds = m.Orders.Select(o=>o.Id).ToList(),
+                    Orders = m.Orders.Select(o=>new OrderDto
+                    {
+                        OrderId = o.Id,
+                        Code = o.Code,
+                    }).ToList(),
                 }).ToList();
             
             return Ok(machines);
@@ -72,8 +76,11 @@ namespace MiniMES.Controllers
                 Id = machine.Id,
                 Name = machine.Name,
                 Description = machine.Description,
-                OrderIds = machine.Orders.Select(o => o.Id).ToList(),
-                Orders = machine.Orders.Select(o=>o.Code).ToList()
+                Orders = machine.Orders.Select(o=>new OrderDto
+                {
+                    OrderId = o.Id,
+                    Code = o.Code,
+                }).ToList()
             };
 
             return Ok(machineDto);

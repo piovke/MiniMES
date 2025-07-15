@@ -84,5 +84,32 @@ namespace MiniMES.Controllers
             _context.SaveChanges();
             return Ok("Product deleted");
         }
+        [HttpGet]
+        [Route("Details/{id}")]
+        public IActionResult Details([FromRoute] int id)
+        {
+            var product = _context.Products
+                .Include(m => m.Orders)
+                .FirstOrDefault(m => m.Id == id);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            var productDto = new MachineDto
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                Orders = product.Orders.Select(o=> new OrderDto
+                {
+                    OrderId = o.Id,
+                    Code = o.Code,
+                }).ToList()
+            };
+
+            return Ok(productDto);
+        }
     }
 }

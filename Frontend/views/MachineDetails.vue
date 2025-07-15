@@ -25,12 +25,14 @@ onMounted(() => {
   <p>{{machine?.description}}</p>
   
   <h3>Active orders:</h3>
+  <div v-if="machine?.orders.length===0">No orders</div>
+  
   <ul>
     <li v-for="order in machine?.orders">
-    {{order}}
+    {{order.code}}
     </li>
   </ul>
-  </template>
+</template>
 
 <style scoped>
 
