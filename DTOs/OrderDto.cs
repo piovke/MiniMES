@@ -4,8 +4,9 @@ public class OrderDto
 {
     public int OrderId { get; set; }
     public string Code { get; set; } ="";
-    public string MachineName { get; set; }="";
-    public string ProductName { get; set; }="";
+    public MachineDto Machine { get; set; } = new MachineDto();
+    public ProductDto Product { get; set; } = new  ProductDto();
+    public List<ProcessDto> Processes { get; set; } = new List<ProcessDto>();
     public int Quantity { get; set; }
 }
 

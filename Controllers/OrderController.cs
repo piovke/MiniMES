@@ -24,14 +24,26 @@ namespace MiniMES.Controllers
             var orderDtos = _context.Orders
                 .Include(o => o.Machine)
                 .Include(o => o.Product)
+                .Include(o=>o.Processes)
                 .Select(o=>new OrderDto
                 {
                     OrderId = o.Id,
                     Code = o.Code,
-                    // MachineId = o.MachineId,
-                    MachineName = o.Machine.Name,
-                    // ProductId = o.ProductId,
-                    ProductName = o.Product.Name,
+                    Machine = new MachineDto
+                    {
+                        Id = o.Machine.Id,
+                        Name = o.Machine.Name,
+                    },
+                    Product = new ProductDto()
+                    {
+                        Id = o.Product.Id,
+                        Name = o.Product.Name,
+                    },
+                    Processes = o.Processes.Select(p=> new ProcessDto
+                    {
+                        SerialNumber = p.SerialNumber,
+                        
+                    }).ToList(),
                     Quantity = o.Quantity
                 })
                 .ToList();
@@ -66,6 +78,76 @@ namespace MiniMES.Controllers
             _context.SaveChanges();
 
             return Ok("Order created");
+        }
+
+        [HttpPut]
+        [Route("UpdateOrder")]
+        public IActionResult UpdateOrder([FromBody] CreateOrderDto input, [FromQuery] int id)
+        {
+            var orderToUpdate = _context.Orders.Find(id);
+            if (orderToUpdate == null)
+            {
+                return BadRequest("Order not found");
+            }
+            orderToUpdate.Code = input.Code;
+            orderToUpdate.MachineId = input.MachineId;
+            orderToUpdate.ProductId = input.ProductId;
+            orderToUpdate.Quantity = input.Quantity;
+            _context.Orders.Update(orderToUpdate);
+            _context.SaveChanges();
+            return Ok("Order updated");
+        }
+
+        [HttpDelete]
+        [Route("DeleteOrder")]
+        public IActionResult DeleteOrder([FromQuery] int id)
+        {
+            var orderToDelete = _context.Orders.Find(id);
+            if (orderToDelete == null)
+            {
+                return BadRequest();
+            }
+            _context.Orders.Remove(orderToDelete);
+            _context.SaveChanges();
+            return Ok("Deleted");
+        }
+
+        [HttpGet]
+        [Route("Details/{id}")]
+        public IActionResult Details([FromRoute] int id)
+        {
+            var order = _context.Orders
+                .Include(o => o.Machine)
+                .Include(o => o.Product)
+                .Include(o => o.Processes)
+                .FirstOrDefault(o=>o.Id == id);
+            if (order == null)
+            {
+                return BadRequest();
+            }
+            var orderDto = new OrderDto
+                {
+                    OrderId = order.Id,
+                    Code = order.Code,
+                    Machine = new MachineDto
+                    {
+                        Id = order.Machine.Id,
+                        Name = order.Machine.Name,
+                    },
+                    Product = new ProductDto()
+                    {
+                        Id = order.Product.Id,
+                        Name = order.Product.Name,
+                    },
+                    Processes = order.Processes.Select(p=> new ProcessDto
+                    {
+                        Id = p.Id,
+                        SerialNumber = p.SerialNumber,
+                        
+                    }).ToList(),
+                    Quantity = order.Quantity
+                };
+            return Ok(orderDto);
         }
     }
 }
