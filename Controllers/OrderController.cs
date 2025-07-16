@@ -27,7 +27,7 @@ namespace MiniMES.Controllers
                 .Include(o=>o.Processes)
                 .Select(o=>new OrderDto
                 {
-                    OrderId = o.Id,
+                    Id = o.Id,
                     Code = o.Code,
                     Machine = new MachineDto
                     {
@@ -127,7 +127,7 @@ namespace MiniMES.Controllers
             }
             var orderDto = new OrderDto
                 {
-                    OrderId = order.Id,
+                    Id = order.Id,
                     Code = order.Code,
                     Machine = new MachineDto
                     {

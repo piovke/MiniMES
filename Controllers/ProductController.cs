@@ -104,7 +104,7 @@ namespace MiniMES.Controllers
                 Description = product.Description,
                 Orders = product.Orders.Select(o=> new OrderDto
                 {
-                    OrderId = o.Id,
+                    Id = o.Id,
                     Code = o.Code,
                 }).ToList()
             };

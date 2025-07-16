@@ -19,6 +19,20 @@ async function fetchProduct() {
 onMounted(() => {
   fetchProduct();
 })
+const name = ref(null);
+const description = ref(null);
+async function updateProduct(id){
+  var response =await fetch('http://localhost:5001/Machines/UpdateProduct?id=' + id, {
+    method: 'PUT',
+    headers:{'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      name: name.value,
+      description: description.value,
+    })
+  })
+  console.log(response)
+  await fetchProduct()
+}
 
 </script>
 
@@ -31,8 +45,19 @@ onMounted(() => {
   <ul>
     <li v-for="order in product?.orders">
       {{order.code}}
+      <router-link :to="`/Orders/Details/${order.id}`">
+        <button>order details</button>
+      </router-link>
     </li>
   </ul>
+  <br><br><br>
+  Edit this product:<br>
+  <form @submit.prevent="updateProduct(product.id)">
+    name:  <input v-model="name" type="text" placeholder="new product name..."/><br>
+    description:<input v-model="description" type="text" placeholder="new product description..."/><br>
+    <button type="submit">Update</button>
+
+  </form>
 </template>
 
 <style scoped>

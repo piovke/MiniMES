@@ -29,7 +29,10 @@ async function fetchOrder() {
   Associated processes:<br>
   <p v-if="order?.processes.length===0">none</p>
   <ul>
-    <li v-for="process in order?.processes">{{ process.serialNumber }}</li>
+    <li v-for="process in order?.processes">
+      {{ process.serialNumber }}
+      
+    </li>
   </ul>
 </template>
 

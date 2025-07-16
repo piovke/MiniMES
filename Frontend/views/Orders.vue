@@ -19,7 +19,7 @@ onMounted(() => {
   <ul v-if="orders">
     <li v-for="order in orders">
       {{ order?.code }}
-      <router-link :to="`/Orders/Details/${order.orderId}`">
+      <router-link :to="`/Orders/Details/${order.id}`">
         <button>details</button>
       </router-link>
       <button @click="">delete</button>

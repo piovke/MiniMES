@@ -1,7 +1,10 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace MiniMES.Models;
 
 public class Parameter
 {
+    [Key]
     public int Id;
     public string Name;
     public string Unit;

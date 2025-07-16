@@ -50,7 +50,7 @@ namespace MiniMES.Controllers
                     Description = m.Description,
                     Orders = m.Orders.Select(o=>new OrderDto
                     {
-                        OrderId = o.Id,
+                        Id = o.Id,
                         Code = o.Code,
                     }).ToList(),
                 }).ToList();
@@ -78,7 +78,7 @@ namespace MiniMES.Controllers
                 Description = machine.Description,
                 Orders = machine.Orders.Select(o=>new OrderDto
                 {
-                    OrderId = o.Id,
+                    Id = o.Id,
                     Code = o.Code,
                 }).ToList()
             };

@@ -47,9 +47,9 @@ async function updateMachine(id){
   <ul>
     <li v-for="order in machine?.orders">
     {{order.code}}
-<!--      <router-link :to="`/Orders/Details/${machine?.order.id}`">-->
-<!--        <button>s</button>-->
-<!--      </router-link>-->
+      <router-link :to="`/Orders/Details/${order.id}`">
+        <button>order details</button>
+      </router-link>
     </li>
   </ul>
   <br><br><br>

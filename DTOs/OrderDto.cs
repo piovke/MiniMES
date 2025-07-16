@@ -2,7 +2,7 @@ namespace MiniMES.DTOs;
 
 public class OrderDto
 {
-    public int OrderId { get; set; }
+    public int Id { get; set; }
     public string Code { get; set; } ="";
     public MachineDto Machine { get; set; } = new MachineDto();
     public ProductDto Product { get; set; } = new  ProductDto();
